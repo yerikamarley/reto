@@ -1,13 +1,13 @@
 // API Configuration
 const API_CONFIG = {
     // Base URL for your API
-    BASE_URL: '',
+    BASE_URL: 'https://umjkxtgyxiogikyecykx.supabase.co/rest/v1',
     
     // API Key for authentication
-    API_KEY: '',
+    API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtamt4dGd5eGlvZ2lreWVjeWt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxOTk1NTcsImV4cCI6MjA3MDc3NTU1N30.5aSplbMw_WJgYdMECIQvBuAWeXlOBVcOXZCpX6YcyQg',
     
     // Authorization token (Bearer token, JWT, etc.)
-    AUTH_TOKEN: '',
+    AUTH_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtamt4dGd5eGlvZ2lreWVjeWt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxOTk1NTcsImV4cCI6MjA3MDc3NTU1N30.5aSplbMw_WJgYdMECIQvBuAWeXlOBVcOXZCpX6YcyQg',
     
     // API Endpoints
     ENDPOINTS: {
