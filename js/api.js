@@ -33,7 +33,7 @@ class ApiService {
             showLoading();
             
             if (ENV_CONFIG.DEBUG) {
-                console.log(`API Request: ${options.method || 'GET'} ${url}`, config);
+                console.log(`API Request: ${options.method || 'GET' || 'POS' || 'PUT' || 'DELETE'} ${url}`, config);
             }
 
             const response = await fetch(url, config);
@@ -100,6 +100,37 @@ class CursosService extends ApiService {
     }
 
     async getAll() {
+    
+       return this.get(this.endpoint+'cursos');
+
+    }
+
+    async getById(id) {
+            return this.get(this.endpoint+'/'+id);
+
+    }
+
+    async create(curso) {
+       return this.post(this.endpoint, curso);
+    }
+
+    async update(id, curso) {
+        return this.update(this.endpoint+''+id, curso);
+    }
+
+    async delete(id) {
+    console.log('${this.endpoint}?id_curso=eq.${id}')
+    return super.delete('${this.endpoint}?id_curso=eq.${id}');
+    }
+}
+
+class EstudiantesService extends ApiService {
+    constructor() {
+        super();
+        this.endpoint = API_CONFIG.ENDPOINTS.ESTUDIANTES;
+    }
+
+    async getAll() {
        return this.get(this.endpoint);
 
     }
@@ -109,23 +140,83 @@ class CursosService extends ApiService {
 
     }
 
-    async create(curso) {
-       return this.post(this.endpoint, curso);
+    async create(estudiante) {
+       return this.post(this.endpoint, estudiante);
     }
 
-    async update(id, curso) {
-        return this.update('${this.endpoint}/${id}', curso);
+    async update(id, estudiante) {
+        return this.update('${this.endpoint}/${id}', estudiante);
     }
 
     async delete(id) {
-       //console.log(${this.endpoint}?id_curso=eq.${id})
-    return super.delete('${this.endpoint}?id_curso=eq.${id}');
+       console.log('${this.endpoint}?id_estudiante=eq.${id}')
+    return super.delete('${this.endpoint}?id_estudiante=eq.${id}');
+    }
+}
+
+class ProfesoresService extends ApiService {
+    constructor() {
+        super();
+        this.endpoint = API_CONFIG.ENDPOINTS.PROFESORES;
+    }
+
+    async getAll() {
+       return this.get(this.endpoint);
 
     }
 
+    async getById(id) {
+            return this.get('${this.endpoint}/${id}');
+
+    }
+
+    async create(profesores) {
+       return this.post(this.endpoint, profesores);
+    }
+
+    async update(id, profesores) {
+        return this.update('${this.endpoint}/${id}', profesores);
+    }
+
+    async delete(id) {
+       console.log('${this.endpoint}?id_profesores=eq.${id}')
+    return super.delete('${this.endpoint}?id_profesores=eq.${id}');
+    }
 }
 
+class InscripcionesService extends ApiService {
+    constructor() {
+        super();
+        this.endpoint = API_CONFIG.ENDPOINTS.INSCRIPCIONES;
+    }
+
+    async getAll() {
+       return this.get(this.endpoint);
+
+    }
+
+    async getById(id) {
+            return this.get('${this.endpoint}/${id}');
+
+    }
+
+    async create(inscripciones) {
+       return this.post(this.endpoint, inscripciones);
+    }
+
+    async update(id, inscripciones) {
+        return this.update('${this.endpoint}/${id}', inscripciones);
+    }
+
+    async delete(id) {
+       console.log('${this.endpoint}?id_inscripciones=eq.${id}')
+    return super.delete('${this.endpoint}?id_inscripciones=eq.${id}');
+    }
+}
 
 
 // Initialize services
 const cursosService = new CursosService();
+const estudiantesService = new EstudiantesService();
+const profesoresService = new ProfesoresService();
+const inscripcionesService = new InscripcionesService();

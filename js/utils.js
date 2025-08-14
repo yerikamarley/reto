@@ -192,6 +192,7 @@ function getFormData(formId) {
         cursoProfesor: 'id_profesor',
         inscripcionEstudiante: 'id_estudiante',
         inscripcionCurso: 'id_curso',
+        inscripcionId: 'id_inscripcion',
         inscripcionFecha: 'fecha_inscripcion'
     };
 
