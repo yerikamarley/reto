@@ -1,15 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Document</title>
-       <link rel="stylesheet" href="/assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Educativo - CRUD Completo</title>
+    <link rel="stylesheet" href="css/estilos.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-   
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<script src="/src/code.js" type="module"></script> 
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-graduation-cap"></i> Sistema Educativo</h2>
+            <p>Gestión Académica</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-chart-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="profesores">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Profesores</span>
+            </a>
+            <a href="#" class="nav-item" data-section="estudiantes">
+                <i class="fas fa-user-graduate"></i>
+                <span>Estudiantes</span>
+            </a>
+            <a href="#" class="nav-item" data-section="cursos">
+                <i class="fas fa-book"></i>
+                <span>Cursos</span>
+            </a>
+            <a href="#" class="nav-item" data-section="inscripciones">
+                <i class="fas fa-file-alt"></i>
+                <span>Inscripciones</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <p>&copy; 2025 Sistema Educativo</p>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
+        <div class="section active" id="dashboard">
+            <div class="section-header">
+                <h1>Dashboard</h1>
+                <p>Resumen general del sistema educativo</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <h3>Profesores</h3>
+                            <p class="stat-number" id="totalProfesores">0</p>
+                            <span class="stat-trend">+2 este mes</span>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card green">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <h3>Estudiantes</h3>
+                            <p class="stat-number" id="totalEstudiantes">0</p>
+                            <span class="stat-trend">+8 este mes</span>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card orange">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <h3>Cursos</h3>
+                            <p class="stat-number" id="totalCursos">0</p>
+                            <span class="stat-trend">+1 este mes</span>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card purple">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <h3>Inscripciones</h3>
+                            <p class="stat-number" id="totalInscripciones">0</p>
+                            <span class="stat-trend">+12 este mes</span>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-line"></i> Cursos Más Populares</h3>
+                    <div id="cursosPopulares" class="chart-content"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3><i class="fas fa-users"></i> Especialidades de Profesores</h3>
+                    <div id="especialidadesProfesores" class="chart-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profesores Section -->
+        <div class="section" id="profesores">
+            <div class="section-header">
+                <div>
+                    <h1>Profesores</h1>
+                    <p>Gestiona la información de los profesores</p>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('profesorModal')">
+                    <i class="fas fa-plus"></i> Nuevo Profesor
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchProfesores" placeholder="Buscar profesores...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Especialidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profesoresTableBody">
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Estudiantes Section -->
+        <div class="section" id="estudiantes">
+            <div class="section-header">
+                <div>
+                    <h1>Estudiantes</h1>
+                    <p>Gestiona la información de los estudiantes</p>
+                </div>
+                <button class="btn btn-success" onclick="openModal('estudianteModal')">
+                    <i class="fas fa-plus"></i> Nuevo Estudiante
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchEstudiantes" placeholder="Buscar estudiantes...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Fecha Registro</th>
+                            <th>Inscripciones</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estudiantesTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cursos Section -->
+        <div class="section" id="cursos">
+            <div class="section-header">
+                <div>
+                    <h1>Cursos</h1>
+                    <p>Gestiona la información de los cursos</p>
+                </div>
+                <button class="btn btn-warning" onclick="openModal('cursoModal')">
+                    <i class="fas fa-plus"></i> Nuevo Curso
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchCursos" placeholder="Buscar cursos...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Curso</th>
+                            <th>Profesor</th>
+                            <th>Estudiantes</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cursosTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Inscripciones Section -->
+        <div class="section" id="inscripciones">
+            <div class="section-header">
+                <div>
+                    <h1>Inscripciones</h1>
+                    <p>Gestiona las inscripciones de estudiantes a cursos</p>
+                </div>
+                <button class="btn btn-info" onclick="openModal('inscripcionModal')">
+                    <i class="fas fa-plus"></i> Nueva Inscripción
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInscripciones" placeholder="Buscar inscripciones...">
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Estudiante</th>
+                            <th>Curso</th>
+                            <th>Profesor</th>
+                            <th>Fecha Inscripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inscripcionesTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Profesor Modal -->
+    <div class="modal" id="profesorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="profesorModalTitle">Nuevo Profesor</h3>
+                <button class="close-btn" onclick="closeModal('profesorModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="profesorForm">
+                <div class="form-group">
+                    <label for="profesorNombre">Nombre</label>
+                    <input type="text" id="profesorNombre" name="profesorNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="profesorEspecialidad">Especialidad</label>
+                    <input type="text" id="profesorEspecialidad" name="profesorEspecialidad" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('profesorModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Estudiante Modal -->
+    <div class="modal" id="estudianteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="estudianteModalTitle">Nuevo Estudiante</h3>
+                <button class="close-btn" onclick="closeModal('estudianteModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="estudianteForm">
+                <div class="form-group">
+                    <label for="estudianteNombre">Nombre</label>
+                    <input type="text" id="estudianteNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="estudianteEmail">Email</label>
+                    <input type="email" id="estudianteEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="estudianteFechaRegistro">Fecha de Registro</label>
+                    <input type="date" id="estudianteFechaRegistro" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('estudianteModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Curso Modal -->
+    <div class="modal" id="cursoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cursoModalTitle">Nuevo Curso</h3>
+                <button class="close-btn" onclick="closeModal('cursoModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="cursoForm">
+                <div class="form-group">
+                    <label for="cursoNombre">Nombre del Curso</label>
+                    <input type="text" id="cursoNombre">
+                </div>
+                <div class="form-group">
+                    <label for="cursoProfesor">Profesor</label>
+                    <select id="cursoProfesor">
+                        <option value="">Seleccionar profesor</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('cursoModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-warning">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inscripción Modal -->
+    <div class="modal" id="inscripcionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="inscripcionModalTitle">Nueva Inscripción</h3>
+                <button class="close-btn" onclick="closeModal('inscripcionModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="inscripcionForm">
+                <div class="form-group">
+                    <label for="inscripcionEstudiante">Estudiante</label>
+                    <select id="inscripcionEstudiante" required>
+                        <option value="">Seleccionar estudiante</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inscripcionCurso">Curso</label>
+                    <select id="inscripcionCurso" required>
+                        <option value="">Seleccionar curso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inscripcionFecha">Fecha de Inscripción</label>
+                    <input type="date" id="inscripcionFecha" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('inscripcionModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-info">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+
+     <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
