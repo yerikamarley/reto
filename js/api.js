@@ -100,23 +100,27 @@ class CursosService extends ApiService {
     }
 
     async getAll() {
-       
+       return this.get(this.endpoint);
+
     }
 
     async getById(id) {
-            
+            return this.get('${this.endpoint}/${id}');
+
     }
 
     async create(curso) {
-       
+       return this.post(this.endpoint, curso);
     }
 
     async update(id, curso) {
-       
+        return this.update('${this.endpoint}/${id}', curso);
     }
 
     async delete(id) {
-       
+       //console.log(${this.endpoint}?id_curso=eq.${id})
+    return super.delete('${this.endpoint}?id_curso=eq.${id}');
+
     }
 
 }
